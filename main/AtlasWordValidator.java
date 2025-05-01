@@ -1,34 +1,45 @@
-package main;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class AtlasWordValidator {
     private Set<String> validWords;
     private Set<String> remainingWords; // contains only lowercase words
     private Set<String> completedWords;
     public AtlasWordValidator() {
+        initializeValidWords();
+        this.remainingWords = new TreeSet<String>(validWords);
+        this.completedWords = new TreeSet<String>();
+    }
+    private void initializeValidWords(){
         
     }
-    private initializeValidWords(){
-        
-    }
-    
     private String lowerCase(String word)
     {
         if(word!=null)
-        return lowerCaseWord=word.toLowerCase();
+        return word.toLowerCase();
         else
         return null;
     }
-    private bool validate(String word)
+    public Boolean validate(String word)
     {
-        if(remainingWords.contains(word))
+        String lowerCaseWord = lowerCase(word);
+        return remainingWords.contains(lowerCaseWord);
+    }
+    public Boolean validateAndPlay(String word)
+    {
+        String lowerCaseWord = lowerCase(word);
+        if(remainingWords.contains(lowerCaseWord))
         {
-            String lowerCaseWord = lowerCase(word);
             remainingWords.remove(lowerCaseWord);
             completedWords.add(lowerCaseWord);
             return true;
         }
         else
         return false;
+    }
+    public Set<String> getCompletedWords()
+    {
+        return new TreeSet<>(this.completedWords);
     }
 
 
