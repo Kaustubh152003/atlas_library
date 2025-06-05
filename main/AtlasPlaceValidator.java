@@ -1,3 +1,4 @@
+package main;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -11,7 +12,7 @@ public class AtlasPlaceValidator {
     }
     private void initializeValidPlaces(){
         this.validPlaces=new TreeSet<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader("resources/ValidPlaces.txt"))) 
+        try (BufferedReader reader = new BufferedReader(new FileReader("main/resources/ValidPlaces.txt"))) 
         {
             String Place;
             while ((Place = reader.readLine()) != null) {
