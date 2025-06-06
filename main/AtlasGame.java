@@ -1,55 +1,97 @@
-
+package main;
 import java.util.Set;
-import main.AtlasPlaceValidator;
+import java.util.TreeSet;
 public class AtlasGame {
     int gameId;
-    int turnTime;
     int players[];
-    int playerCount;
-    int turn;
+    int playersSize;
+    int maxSize;
+    int currentPlayerIndex;
     char currentLetter;
     int status;
-    private Set<String> completedWords;
+    public Set<String> completedWords;
     AtlasPlaceValidator atlasPlaceValidator;
-    public AtlasGame(int gameId,int turnTime,AtlasPlaceValidator atlasPlaceValidator){
+    public AtlasGame(int gameId,AtlasPlaceValidator atlasPlaceValidator,int maxSize){
         this.gameId=gameId;
-        this.turnTime=turnTime;
         this.atlasPlaceValidator=atlasPlaceValidator;
         this.status=0;
-        this.players=new int[100];
-        this.playerCount=0;
+        this.players=new int[maxSize];
+        this.maxSize=maxSize;
+        this.completedWords = new TreeSet<>();
+        this.playersSize=0;
     }
-    public int getNextPlayer()
+    private int getPlayerIndex(int player)
     {
-        return 1;
-    }
-    public boolean start()
-    {
+        int j=0;
+        while(j<playersSize && players[j]!=player)
+        j++;
+        if(j==playersSize)
+        return -1;
+        else
+        return j; 
 
-        this.status=1;
-        return true;
+    }
+    public boolean addPlayer(int player)
+    {
+        if(this.status==0 && getPlayerIndex(player)==-1 && playersSize<maxSize)
+        {
+            players[playersSize]=player;
+            playersSize++;
+            return true;
+        }
+        else
+        return false;
     }
     public boolean removePlayer(int player)
     {
-        if(this.status==0)
+        if(this.status==0 || this.status==1)
         {
-            
-        }
-        else if(this.status==1)
-        {
-
+            if(this.status==1 && player==getCurrentPlayer())
+            {
+                moveToNextPlayer();
+            }
+            int j=getPlayerIndex(player);
+            while(j<playersSize-1)
+            {
+                players[j]=players[j+1];
+                j++;
+            }
+            playersSize--;
+            if(playersSize==0)
+            {
+                stopGame();
+            }
+            return true;
         }
         else
         {
             return false;
         }
+    }
+    public int moveToNextPlayer()
+    {
+        currentPlayerIndex = (currentPlayerIndex+1)%(playersSize);
+        return getCurrentPlayer();
+    }
+    public int getCurrentPlayer()
+    {
+        if(this.status==1)
+        return players[currentPlayerIndex];
+        else
+        return -1;
+    }
+    public boolean startGame()
+    {
+        currentPlayerIndex=0;
+        currentLetter='s';
+        this.status=1;
         return true;
     }
-    public boolean addPlayer(int player)
+    public Boolean stopGame()
     {
-        if(this.status==0)
+        if(this.status==1)
         {
-
+            this.status=2;
             return true;
         }
         else
@@ -71,12 +113,12 @@ public class AtlasGame {
         else
         return 0;
     }
-    public int play(int player,String word)
+    public int playTurn(int player,String word)
     {
-        if(word != null)
+        if(word != null && this.status==1)
         {
             String lowerCaseWord = lowerCase(word);
-            boolean playerTurn = this.turn==player;
+            boolean playerTurn = getCurrentPlayer()==player;
             boolean validStartingLetter = lowerCaseWord.charAt(0)==currentLetter;
             boolean validWord = atlasPlaceValidator.validate(lowerCaseWord);
             boolean notCompletedWord = !completedWords.contains(lowerCaseWord);
@@ -84,9 +126,7 @@ public class AtlasGame {
             {
                 completedWords.add(lowerCaseWord);
                 this.currentLetter=lastLetter(lowerCaseWord);
-                int nextPlayer = getNextPlayer();
-                this.turn = nextPlayer;
-                return nextPlayer;
+                return moveToNextPlayer();
             }
             else
             {
@@ -111,6 +151,15 @@ public class AtlasGame {
                     return -6;
                 }
             }
+        }
+        else
+        return -1;
+    }
+    public int skipTurn(int player)
+    {
+        if(getCurrentPlayer()==player)
+        {
+            return moveToNextPlayer();
         }
         else
         return -1;
