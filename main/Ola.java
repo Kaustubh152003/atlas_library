@@ -44,8 +44,13 @@ public class Ola {
         atlasGame.playTurn(2, "denmark");
         atlasGame.playTurn(3, "khammam");
         atlasGame.playTurn(1, "Malaysia");
+        atlasGame.removePlayer(2);
+        atlasGame.playTurn(2, "asia");
+        atlasGame.playTurn(3, "africa");
+
 
         printAtlasGameDetails(atlasGame);
+        atlasGame.getGameHistory().printAtlasGameHistory();
 
 
     }

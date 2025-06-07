@@ -9,8 +9,9 @@ public class AtlasGame {
     int currentPlayerIndex;
     char currentLetter;
     int status;
-    public Set<String> completedWords;
+    Set<String> completedWords;
     AtlasPlaceValidator atlasPlaceValidator;
+    AtlasGameHistory gameHistory;
     public AtlasGame(int gameId,AtlasPlaceValidator atlasPlaceValidator,int maxSize){
         this.gameId=gameId;
         this.atlasPlaceValidator=atlasPlaceValidator;
@@ -19,6 +20,7 @@ public class AtlasGame {
         this.maxSize=maxSize;
         this.completedWords = new TreeSet<>();
         this.playersSize=0;
+        this.gameHistory=new AtlasGameHistory();
     }
     private int getPlayerIndex(int player)
     {
@@ -97,6 +99,10 @@ public class AtlasGame {
         else
         return false;
     }
+    public AtlasGameHistory getGameHistory()
+    {
+        return gameHistory;
+    }
     private String lowerCase(String word)
     {
         if(word!=null)
@@ -125,6 +131,7 @@ public class AtlasGame {
             if(playerTurn && validStartingLetter && validWord && notCompletedWord)
             {
                 completedWords.add(lowerCaseWord);
+                gameHistory.recordMove(player, lowerCaseWord);
                 this.currentLetter=lastLetter(lowerCaseWord);
                 return moveToNextPlayer();
             }
@@ -159,6 +166,7 @@ public class AtlasGame {
     {
         if(getCurrentPlayer()==player)
         {
+            gameHistory.recordMove(player, null);
             return moveToNextPlayer();
         }
         else
