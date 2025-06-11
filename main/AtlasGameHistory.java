@@ -35,7 +35,7 @@ public class AtlasGameHistory{
         else
         return -1;
     }
-    public String getActionFromTurn(int turn)
+    public String getActionOnTurn(int turn)
     {
         if(turn<turnSize)
         return playerActions.get(turn);

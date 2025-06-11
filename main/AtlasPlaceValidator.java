@@ -10,9 +10,16 @@ public class AtlasPlaceValidator {
     public AtlasPlaceValidator() {
         initializeValidPlaces();
     }
+    public AtlasPlaceValidator(String filePath) {
+        initializeValidPlaces(filePath);
+    }
     private void initializeValidPlaces(){
+        String filePath="main/resources/ValidPlaces.txt";
+        initializeValidPlaces(filePath);
+    }
+    private void initializeValidPlaces(String filePath){
         this.validPlaces=new TreeSet<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader("main/resources/ValidPlaces.txt"))) 
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) 
         {
             String Place;
             while ((Place = reader.readLine()) != null) {
