@@ -17,7 +17,7 @@ A Java library for managing and playing the classic **Atlas Game**.
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/atlas_library.git
+   git clone https://github.com/Kaustubh152003/atlas_library.git
    ```
 
 ---

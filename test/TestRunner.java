@@ -7,6 +7,12 @@ public class TestRunner {
             System.err.println("Expected : " + expected);
         }
     }
+    public static class AssertNotNullException extends Exception {
+        public AssertNotNullException(String message,Object actual) {
+            super(message);
+            System.err.println("Actual : " + actual);
+        }
+    }
     public static Boolean AssertEquals(Object actual, Object expected) throws AssertBooleansException
     {
         if(actual.equals(expected)){
@@ -17,6 +23,16 @@ public class TestRunner {
             throw new AssertBooleansException("Assertion Failed",actual,expected);
         }
     }
+    public static Boolean AssertNotNull(Object actual) throws AssertNotNullException
+    {
+        if(actual!=null){
+            return true;
+        }
+        else
+        {
+            throw new AssertNotNullException("Assertion Failed. Object is null",actual);
+        }
+    }
     public static void AllTestsPassed(){
         System.out.println("All Tests have Passed\n");
     }
@@ -24,7 +40,7 @@ public class TestRunner {
         AtlasPlaceValidatorTest.runAllTests();
         AtlasPlaceValidatorProviderTest.runAllTests();
         AtlasGameHistoryTest.runAllTests();
-
+        AtlasGameTest.runAllTests();
         AllTestsPassed();
 
     }
