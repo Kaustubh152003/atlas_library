@@ -1,4 +1,4 @@
-package main;
+package main.java;
 public class Ola {
     public static void printAtlasGameDetails(AtlasGame atlasGame) {
         System.out.println("gameId: " + atlasGame.getGameId());

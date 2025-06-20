@@ -1,6 +1,6 @@
-package test;
-import main.AtlasGame;
-import static test.TestRunner.*;
+package test.java;
+import main.java.AtlasGame;
+import static test.java.TestRunner.*;
 public class AtlasGameTest {
     public static void runAllTests() throws Exception{
         AtlasGameCreationTest();
