@@ -1,8 +1,8 @@
-package test;
+package test.java;
 import java.util.Arrays;
 import java.util.List;
-import main.AtlasPlaceValidator;
-import static test.TestRunner.AssertEquals;
+import main.java.AtlasPlaceValidator;
+import static test.java.TestRunner.AssertEquals;
 
 class AtlasPlaceValidatorTest {
     public static void runAllTests() throws Exception{

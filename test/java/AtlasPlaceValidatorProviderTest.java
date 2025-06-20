@@ -1,7 +1,7 @@
-package test;
-import main.AtlasPlaceValidator;
-import main.AtlasPlaceValidatorProvider;
-import static test.TestRunner.AssertEquals;
+package test.java;
+import main.java.AtlasPlaceValidator;
+import main.java.AtlasPlaceValidatorProvider;
+import static test.java.TestRunner.AssertEquals;
 
 
 class AtlasPlaceValidatorProviderTest {

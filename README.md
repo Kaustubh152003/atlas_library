@@ -13,27 +13,38 @@ A Java library for managing and playing the classic **Atlas Game**.
 
 ---
 
-## Getting Started
+## Project Structure
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/Kaustubh152003/atlas_library.git
-   ```
+```
+atlas_library/
+│
+├── main/
+│   ├── java/
+│   │   ├── AtlasGame.java
+│   │   ├── AtlasExceptions.java
+│   │   └── ... (other main classes)
+│   └── resources/
+│       └── ValidPlaces.txt
+├── test/
+│   └── java/
+│       ├── AtlasGameTest.java
+│       ├── TestRunner.java
+│       └── ... (other test classes)
+└── README.md
+```
 
 ---
 
 ## Running Tests
 
-To run the custom test suite:
-
 1. **Compile the tests:**
    ```bash
-   javac .\test\TestRunner.java
+   javac main/java/*.java test/java/*.java
    ```
 
 2. **Run the test runner:**
    ```bash
-   java -ea test.TestRunner
+   java -ea test.java.TestRunner
    ```
 
 If all tests pass, you will see:
@@ -41,25 +52,6 @@ If all tests pass, you will see:
 All Tests have Passed
 ```
 If a test fails, an assertion error message will be printed.
-
----
-
-## Project Structure
-
-```
-atlas_library/
-│
-├── main/
-│   ├── AtlasGame.java
-│   ├── AtlasPlaceValidator.java
-│   ├── AtlasGameHistory.java
-│   ├── Ola.java
-│   └── ...
-├── test/
-│   ├── AtlasPlaceValidatorTest.java
-│   └── TestRunner.java
-└── README.md
-```
 
 ---
 

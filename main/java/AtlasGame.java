@@ -1,7 +1,7 @@
-package main;
+package main.java;
 import java.util.Set;
 import java.util.TreeSet;
-import main.AtlasExceptions.AtlasPlayException;
+import main.java.AtlasExceptions.AtlasPlayException;
 public class AtlasGame {
     private int gameId;
     private int players[];

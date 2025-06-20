@@ -1,4 +1,4 @@
-package main;
+package main.java;
 public class AtlasPlaceValidatorProvider {
     private static final AtlasPlaceValidator atlasPlaceValidator = new AtlasPlaceValidator();
     private AtlasPlaceValidatorProvider() 

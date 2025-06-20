@@ -1,6 +1,6 @@
-package test;
-import main.AtlasGameHistory;
-import static test.TestRunner.AssertEquals;
+package test.java;
+import main.java.AtlasGameHistory;
+import static test.java.TestRunner.AssertEquals;
 
 
 class AtlasGameHistoryTest {
