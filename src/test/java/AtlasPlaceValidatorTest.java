@@ -1,8 +1,7 @@
-package test.java;
 import java.util.Arrays;
 import java.util.List;
-import main.java.AtlasPlaceValidator;
-import static test.java.TestRunner.AssertEquals;
+
+import com.AtlasLibrary.AtlasPlaceValidator;
 
 class AtlasPlaceValidatorTest {
     public static void runAllTests() throws Exception{
@@ -16,7 +15,7 @@ class AtlasPlaceValidatorTest {
         while(j<validSamplePlaces.size())
         {
             String place = validSamplePlaces.get(j);
-            AssertEquals(atlasPlaceValidator.validate(place),Boolean.TRUE);
+            TestRunner.AssertEquals(atlasPlaceValidator.validate(place),Boolean.TRUE);
             j++;
         }
         return true;
@@ -28,7 +27,7 @@ class AtlasPlaceValidatorTest {
         while(j<invalidSamplePlaces.size())
         {
             String place = invalidSamplePlaces.get(j);
-            AssertEquals(atlasPlaceValidator.validate(place),Boolean.FALSE);
+            TestRunner.AssertEquals(atlasPlaceValidator.validate(place),Boolean.FALSE);
             j++;
         }
         return true;

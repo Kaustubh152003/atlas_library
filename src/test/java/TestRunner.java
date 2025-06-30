@@ -1,4 +1,3 @@
-package test.java;
 public class TestRunner {
     public static class AssertBooleansException extends Exception {
         public AssertBooleansException(String message,Object actual, Object expected) {

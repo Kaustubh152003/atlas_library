@@ -1,4 +1,5 @@
-package main.java;
+package com.AtlasLibrary;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -14,7 +15,7 @@ public class AtlasPlaceValidator {
         initializeValidPlaces(filePath);
     }
     private void initializeValidPlaces(){
-        String filePath="main/resources/ValidPlaces.txt";
+        String filePath="src/main/resources/ValidPlaces.txt";
         initializeValidPlaces(filePath);
     }
     private void initializeValidPlaces(String filePath){

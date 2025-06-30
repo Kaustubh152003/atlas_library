@@ -1,4 +1,5 @@
-package main.java;
+package com.AtlasLibrary;
+
 public class AtlasExceptions {
     
     public static class AtlasGameException extends Exception {

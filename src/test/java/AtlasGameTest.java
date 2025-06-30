@@ -1,6 +1,7 @@
-package test.java;
-import main.java.AtlasGame;
-import static test.java.TestRunner.*;
+
+import com.AtlasLibrary.AtlasGame;
+
+
 public class AtlasGameTest {
     public static void runAllTests() throws Exception{
         AtlasGameCreationTest();
@@ -9,9 +10,9 @@ public class AtlasGameTest {
         int gameId = 1;
         int maxSize = 100;
         AtlasGame atlasGame = new AtlasGame(gameId,maxSize);
-        AssertNotNull(atlasGame.getAtlasPlaceValidator());
-        AssertEquals(atlasGame.getGameId(), gameId);
-        AssertEquals(atlasGame.getMaxSize(), maxSize);
+        TestRunner.AssertNotNull(atlasGame.getAtlasPlaceValidator());
+        TestRunner.AssertEquals(atlasGame.getGameId(), gameId);
+        TestRunner.AssertEquals(atlasGame.getMaxSize(), maxSize);
         return true;
     }
 }

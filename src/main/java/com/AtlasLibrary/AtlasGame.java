@@ -1,7 +1,7 @@
-package main.java;
+package com.AtlasLibrary;
+
 import java.util.Set;
 import java.util.TreeSet;
-import main.java.AtlasExceptions.AtlasPlayException;
 public class AtlasGame {
     private int gameId;
     private int players[];
@@ -177,7 +177,7 @@ public class AtlasGame {
         else
         return 0;
     }
-    public int playTurn(int player,String word) throws AtlasPlayException
+    public int playTurn(int player,String word) throws AtlasExceptions.AtlasPlayException
     {
         if(word != null && this.status==1)
         {
@@ -196,24 +196,24 @@ public class AtlasGame {
             else
             {
                 if (!playerTurn) {
-                    throw new AtlasPlayException("It's not the player's turn.");
+                    throw new AtlasExceptions.AtlasPlayException("It's not the player's turn.");
                 }
                 else if (!validStartingLetter) {
-                    throw new AtlasPlayException("Word does not start with the required letter.");
+                    throw new AtlasExceptions.AtlasPlayException("Word does not start with the required letter.");
                 }
                 else if (!validWord) {
-                    throw new AtlasPlayException("Word is not a valid place.");
+                    throw new AtlasExceptions.AtlasPlayException("Word is not a valid place.");
                 }
                 else if (!notCompletedWord) {
-                    throw new AtlasPlayException("Word has already been used.");
+                    throw new AtlasExceptions.AtlasPlayException("Word has already been used.");
                 }
-                throw new AtlasPlayException("Invalid play.");
+                throw new AtlasExceptions.AtlasPlayException("Invalid play.");
             }
         }
         else
-        throw new AtlasPlayException("The Game hasnt started or the word is null.");
+        throw new AtlasExceptions.AtlasPlayException("The Game hasnt started or the word is null.");
     }
-    public int skipTurn(int player) throws AtlasPlayException
+    public int skipTurn(int player) throws AtlasExceptions.AtlasPlayException
     {
         if(getCurrentPlayer()==player)
         {
@@ -221,7 +221,7 @@ public class AtlasGame {
             return moveToNextPlayer();
         }
         else
-        throw new AtlasPlayException("It's not the player's turn.");
+        throw new AtlasExceptions.AtlasPlayException("It's not the player's turn.");
     }
 
 }

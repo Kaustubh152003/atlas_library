@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.AtlasLibrary'
+version = '1.0-SNAPSHOT'
+
+sourceCompatibility = '21'
+targetCompatibility = '21'
+
+repositories {
+    mavenCentral()
+}
+task runTestRunner(type: JavaExec) {
+    mainClass = 'src.test.java.TestRunner'
+    jvmArgs = ['-ea']
+    dependsOn classes
+    dependsOn testClasses
+}
+
+task runOla(type: JavaExec) {
+    mainClass = 'src.main.java.Ola'
+    dependsOn classes
+}

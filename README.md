@@ -18,33 +18,45 @@ A Java library for managing and playing the classic **Atlas Game**.
 ```
 atlas_library/
 │
-├── main/
-│   ├── java/
-│   │   ├── AtlasGame.java
-│   │   ├── AtlasExceptions.java
-│   │   └── ... (other main classes)
-│   └── resources/
-│       └── ValidPlaces.txt
-├── test/
-│   └── java/
-│       ├── AtlasGameTest.java
-│       ├── TestRunner.java
-│       └── ... (other test classes)
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   ├── AtlasGame.java
+│   │   │   ├── AtlasExceptions.java
+│   │   │   ├── AtlasPlaceValidator.java
+│   │   │   └── ... (other main classes)
+│   │   └── resources/
+│   │       └── ValidPlaces.txt
+│   └── test/
+│       └── java/
+│           ├── AtlasGameTest.java
+│           ├── TestRunner.java
+│           └── ... (other test classes)
 └── README.md
 ```
+
+---
+## Running Ola
+
+1. **Run Ola:**
+   ```bash
+   javac -d out src/main/java/com/AtlasLibrary/*.java src/test/java/*.java
+   java -cp out Ola
+   ```
 
 ---
 
 ## Running Tests
 
-1. **Compile the tests:**
+1. **Compile the code and tests:**
    ```bash
-   javac main/java/*.java test/java/*.java
+   javac -d out src/main/java/com/AtlasLibrary/*.java src/test/java/*.java
    ```
 
 2. **Run the test runner:**
    ```bash
-   java -ea test.java.TestRunner
+   javac -d out src/main/java/com/AtlasLibrary/*.java src/test/java/*.java
+   java -cp out TestRunner
    ```
 
 If all tests pass, you will see:

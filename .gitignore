@@ -1,6 +1,10 @@
 # Ignore compiled output directory
 out/
 
+# Ignore Gradle build files and directories
+.gradle/
+build/
+
 # Ignore common Java build files
 *.class
 
