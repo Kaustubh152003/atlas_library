@@ -1,4 +1,5 @@
-package main;
+package com.AtlasLibrary;
+
 public class AtlasPlaceValidatorProvider {
     private static final AtlasPlaceValidator atlasPlaceValidator = new AtlasPlaceValidator();
     private AtlasPlaceValidatorProvider() 

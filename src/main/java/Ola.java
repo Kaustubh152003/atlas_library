@@ -1,4 +1,7 @@
-package main;
+
+import com.AtlasLibrary.AtlasGame;
+import com.AtlasLibrary.AtlasPlaceValidator;
+
 public class Ola {
     public static void printAtlasGameDetails(AtlasGame atlasGame) {
         System.out.println("gameId: " + atlasGame.getGameId());

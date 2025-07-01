@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.AtlasLibrary'
+version = '1.0-SNAPSHOT'
+
+sourceCompatibility = '21'
+targetCompatibility = '21'
+
+repositories {
+    mavenCentral()
+}
+task compileAll(type: JavaCompile) {
+    source = fileTree('src/main/java') + fileTree('src/test/java')
+    classpath = sourceSets.main.compileClasspath + sourceSets.test.compileClasspath
+    destinationDir = file('out')
+}
+task runTestRunner(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath + sourceSets.test.runtimeClasspath
+    mainClass = 'TestRunner'
+    jvmArgs = ['-ea']
+}
+
+task runOla(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath + sourceSets.test.runtimeClasspath
+    mainClass = 'src.main.java.Ola'
+}
