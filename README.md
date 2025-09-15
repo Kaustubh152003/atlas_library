@@ -40,7 +40,7 @@ atlas_library/
 
 1. **Run Ola:**
    ```bash
-   javac -d out src/main/java/com/AtlasLibrary/*.java src/test/java/*.java
+   javac -d out src/main/java/com/AtlasLibrary/*.java src/test/java/*.java src/main/java/*.java
    java -cp out Ola
    ```
 

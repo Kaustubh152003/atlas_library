@@ -2,14 +2,18 @@ package com.AtlasLibrary;
 
 import java.util.Set;
 import java.util.TreeSet;
+
+import com.AtlasLibrary.Constants.GameStatus;
+
+
 public class AtlasGame {
     private int gameId;
-    private int players[];
+    private AtlasPlayer players[];
     private int playersSize;
     private int maxSize;
     private int currentPlayerIndex;
     private char currentLetter;
-    private int status;
+    private GameStatus gameStatus;
     private Set<String> completedWords;
     private AtlasPlaceValidator atlasPlaceValidator;
     private AtlasGameHistory gameHistory;
@@ -17,7 +21,7 @@ public class AtlasGame {
     public int getGameId() {
         return gameId;
     }
-    public int[] getPlayers() {
+    public AtlasPlayer[] getPlayers() {
         return players;
     }
     public int getPlayersSize() {
@@ -32,17 +36,27 @@ public class AtlasGame {
     public char getCurrentLetter() {
         return currentLetter;
     }
-    public int getStatus() {
-        return status;
+    public GameStatus getStatus() {
+        return gameStatus;
     }
     public Set<String> getCompletedWords() {
         return completedWords;
     }
+    public AtlasGameHistory getGameHistory() {
+        return new AtlasGameHistory(gameHistory);
+    }
     public AtlasPlaceValidator getAtlasPlaceValidator() {
         return atlasPlaceValidator;
     }
-    public AtlasGameHistory getGameHistory() {
-        return gameHistory;
+
+    
+    private void initialize()
+    {
+        this.gameStatus=GameStatus.PRE_GAME;
+        this.players=new AtlasPlayer[maxSize];
+        this.completedWords = new TreeSet<>();
+        this.playersSize=0;
+        this.gameHistory=new AtlasGameHistory();
     }
     public AtlasGame(int gameId,AtlasPlaceValidator atlasPlaceValidator,int maxSize){
         if(atlasPlaceValidator != null)
@@ -66,101 +80,8 @@ public class AtlasGame {
         this.atlasPlaceValidator=AtlasPlaceValidatorProvider.getAtlasPlaceValidator();
         initialize();
     }
-    private void initialize()
-    {
-        this.status=0;
-        this.players=new int[maxSize];
-        this.completedWords = new TreeSet<>();
-        this.playersSize=0;
-        this.gameHistory=new AtlasGameHistory();
-    }
-    private int getPlayerIndex(int player)
-    {
-        int j=0;
-        while(j<playersSize && players[j]!=player)
-        j++;
-        if(j==playersSize)
-        return -1;
-        else
-        return j; 
 
-    }
-    public boolean addPlayer(int player)
-    {
-        if(this.status==0 && getPlayerIndex(player)==-1 && playersSize<maxSize && player>0)
-        {
-            players[playersSize]=player;
-            playersSize++;
-            return true;
-        }
-        else
-        return false;
-    }
-    public boolean removePlayer(int player)
-    {
-        if(this.status==0 || this.status==1)
-        {
-            if(this.status==1 && player==getCurrentPlayer())
-            {
-                moveToNextPlayer();
-            }
-            int j=getPlayerIndex(player);
-            while(j<playersSize-1)
-            {
-                players[j]=players[j+1];
-                j++;
-            }
-            playersSize--;
-            if(playersSize==0)
-            {
-                stopGame();
-            }
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    public int moveToNextPlayer()
-    {
-        currentPlayerIndex = (currentPlayerIndex+1)%(playersSize);
-        return getCurrentPlayer();
-    }
-    public int getCurrentPlayer()
-    {
-        if(this.status==1)
-        return players[currentPlayerIndex];
-        else
-        return -1;
-    }
-    public boolean startGame()
-    {
-        char startingLetter = 's';
-        return startGame(startingLetter);
-    }
-    public boolean startGame(char startingLetter)
-    {
-        if(this.status==0)
-        {
-            currentPlayerIndex=0;
-            currentLetter=startingLetter;
-            this.status=1;
-            return true;
-        }
-        else
-        return false;
-    }
-    public Boolean stopGame()
-    {
-        if(this.status==1)
-        {
-            this.status=2;
-            return true;
-        }
-        else
-        return false;
-    }
+    
     private String lowerCase(String word)
     {
         if(word!=null)
@@ -177,12 +98,120 @@ public class AtlasGame {
         else
         return 0;
     }
-    public int playTurn(int player,String word) throws AtlasExceptions.AtlasPlayException
+
+    private int getPlayerIndex(AtlasPlayer player)
     {
-        if(word != null && this.status==1)
+        int j=0;
+        while(j<playersSize && players[j].equals(player)==false){
+        j++;
+        }
+        if (j == playersSize) 
+        {
+          return -1;
+        } 
+        else 
+        {
+          return j;
+        }
+
+    }
+    private ActionResponse moveToNextPlayer()
+    {
+        currentPlayerIndex = (currentPlayerIndex+1)%(playersSize);
+        return ActionResponse.getSuccessfulActionResponse();
+    }
+    
+    public ActionResponse changeMaxSize(int newMaxSize){
+        if(this.gameStatus==GameStatus.PRE_GAME && maxSize>=playersSize)
+        {
+            this.maxSize=this.maxSize+1;
+            return ActionResponse.getSuccessfulActionResponse();
+        }
+        else
+        return ActionResponse.getFailedActionResponse();
+    }
+    public ActionResponse addPlayer(AtlasPlayer player)
+    {
+        if(this.gameStatus==GameStatus.PRE_GAME && getPlayerIndex(player)==-1 && playersSize<maxSize && player!=null)
+        {
+            players[playersSize]=player;
+            playersSize++;
+            return ActionResponse.getSuccessfulActionResponse("Successfully added player into the game");
+        }
+        else
+        return ActionResponse.getFailedActionResponse("Couldnt add player into the game ");
+    }
+    public ActionResponse removePlayer(AtlasPlayer player)
+    {
+        if(this.gameStatus!=GameStatus.ENDED)
+        {
+            if(this.gameStatus==GameStatus.IN_PROGRESS && AtlasPlayer.equals(player,getCurrentPlayer()))
+            {
+                moveToNextPlayer();
+            }
+            int j=getPlayerIndex(player);
+            while(j<playersSize-1)
+            {
+                players[j]=players[j+1];
+                j++;
+            }
+            playersSize--;
+            if(playersSize==0)
+            {
+                stopGame();
+            }
+            return ActionResponse.getSuccessfulActionResponse("Player has been successfully removed");
+        }
+        else
+        {
+            return ActionResponse.getFailedActionResponse();
+        }
+    }
+    public AtlasPlayer getCurrentPlayer()
+    {
+        if(this.gameStatus==GameStatus.IN_PROGRESS)
+        return players[currentPlayerIndex];
+        else
+        return null;
+    }
+
+    public ActionResponse startGame()
+    {
+        char startingLetter = 's';
+        return startGame(startingLetter);
+    }
+    public ActionResponse startGame(char startingLetter)
+    {
+        if(this.gameStatus==GameStatus.PRE_GAME && playersSize>0)
+        {
+            currentPlayerIndex=0;
+            currentLetter=startingLetter;
+            this.gameStatus=GameStatus.IN_PROGRESS;
+            return ActionResponse.getSuccessfulActionResponse();
+        }
+        else
+        return ActionResponse.getFailedActionResponse();
+    }
+    
+    public ActionResponse stopGame()
+    {
+        if(this.gameStatus==GameStatus.IN_PROGRESS)
+        {
+            this.gameStatus=GameStatus.ENDED;
+            return ActionResponse.getSuccessfulActionResponse();
+        }
+        else
+        return ActionResponse.getFailedActionResponse();
+    }
+    public boolean isWordCompleted(String word){
+        return word!=null && completedWords.contains(lowerCase(word));
+    }
+    public ActionResponse playTurn(AtlasPlayer player,String word)
+    {
+        if(word != null && this.gameStatus==GameStatus.IN_PROGRESS)
         {
             String lowerCaseWord = lowerCase(word);
-            boolean playerTurn = getCurrentPlayer()==player;
+            boolean playerTurn = AtlasPlayer.equals(getCurrentPlayer(),player);
             boolean validStartingLetter = lowerCaseWord.charAt(0)==currentLetter;
             boolean validWord = atlasPlaceValidator.validate(lowerCaseWord);
             boolean notCompletedWord = !completedWords.contains(lowerCaseWord);
@@ -191,37 +220,39 @@ public class AtlasGame {
                 completedWords.add(lowerCaseWord);
                 gameHistory.recordMove(player, lowerCaseWord);
                 this.currentLetter=lastLetter(lowerCaseWord);
-                return moveToNextPlayer();
+                moveToNextPlayer();
+                return ActionResponse.getSuccessfulActionResponse("Word "+lowerCaseWord + " has been played successfully by " + player.getPlayerName());
             }
-            else
+            else 
             {
                 if (!playerTurn) {
-                    throw new AtlasExceptions.AtlasPlayException("It's not the player's turn.");
+                    return ActionResponse.getFailedActionResponse("It's not the player's turn.");
+                } else if (!validStartingLetter) {
+                    return ActionResponse.getFailedActionResponse("Word does not start with the required letter.");
+                } else if (!validWord) {
+                    return ActionResponse.getFailedActionResponse("Word is not a valid place.");
+                } else if (!notCompletedWord) {
+                    return ActionResponse.getFailedActionResponse("Word has already been used.");
+                } else {
+                    return ActionResponse.getFailedActionResponse("Invalid play.");
                 }
-                else if (!validStartingLetter) {
-                    throw new AtlasExceptions.AtlasPlayException("Word does not start with the required letter.");
-                }
-                else if (!validWord) {
-                    throw new AtlasExceptions.AtlasPlayException("Word is not a valid place.");
-                }
-                else if (!notCompletedWord) {
-                    throw new AtlasExceptions.AtlasPlayException("Word has already been used.");
-                }
-                throw new AtlasExceptions.AtlasPlayException("Invalid play.");
             }
+        } else {
+            return ActionResponse.getFailedActionResponse("The Game hasnt started or the word is null.");
         }
-        else
-        throw new AtlasExceptions.AtlasPlayException("The Game hasnt started or the word is null.");
     }
-    public int skipTurn(int player) throws AtlasExceptions.AtlasPlayException
+    public ActionResponse skipTurn(AtlasPlayer player)
     {
-        if(getCurrentPlayer()==player)
+        if(AtlasPlayer.equals(getCurrentPlayer(),player))
         {
             gameHistory.recordMove(player, null);
-            return moveToNextPlayer();
+            ActionResponse response = ActionResponse.getSuccessfulActionResponse("skipped turn successfully");
+            moveToNextPlayer();
+            return response;
         }
-        else
-        throw new AtlasExceptions.AtlasPlayException("It's not the player's turn.");
+        else{
+            return ActionResponse.getFailedActionResponse("It's not the player's turn.");
+        }
     }
 
 }

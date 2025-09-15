@@ -42,6 +42,15 @@ public class AtlasPlaceValidator {
     {
         return validPlaces.contains(lowerCase(place));
     }
+    public boolean validate(Place place)
+    {
+        if(place!=null){
+            return validate(place.getPlace());
+        }
+        else{
+            return false;
+        }
+    }
 
 
 
