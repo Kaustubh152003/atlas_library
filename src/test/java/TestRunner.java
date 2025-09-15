@@ -1,6 +1,6 @@
 public class TestRunner {
-    public static class AssertBooleansException extends Exception {
-        public AssertBooleansException(String message,Object actual, Object expected) {
+    public static class AssertException extends Exception {
+        public AssertException(String message,Object actual, Object expected) {
             super(message);
             System.err.println("Actual : " + actual);
             System.err.println("Expected : " + expected);
@@ -12,14 +12,14 @@ public class TestRunner {
             System.err.println("Actual : " + actual);
         }
     }
-    public static Boolean AssertEquals(Object actual, Object expected) throws AssertBooleansException
+    public static Boolean AssertEquals(Object actual, Object expected) throws AssertException
     {
         if(actual.equals(expected)){
             return true;
         }
         else
         {
-            throw new AssertBooleansException("Assertion Failed",actual,expected);
+            throw new AssertException("Assertion Failed",actual,expected);
         }
     }
     public static Boolean AssertNotNull(Object actual) throws AssertNotNullException
@@ -40,6 +40,7 @@ public class TestRunner {
         AtlasPlaceValidatorProviderTest.runAllTests();
         AtlasGameHistoryTest.runAllTests();
         AtlasGameTest.runAllTests();
+        AtlasPlayerTest.runAllTests();
         AllTestsPassed();
 
     }

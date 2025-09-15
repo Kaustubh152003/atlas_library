@@ -1,13 +1,14 @@
 import com.AtlasLibrary.AtlasGameHistory;
+import com.AtlasLibrary.AtlasPlayer;
 
 class AtlasGameHistoryTest {
 
-    public static void runAllTests() throws TestRunner.AssertBooleansException{
+    public static void runAllTests() throws TestRunner.AssertException{
         recordMoveTest();
     }
-    public static boolean recordMoveTest() throws TestRunner.AssertBooleansException {
+    public static boolean recordMoveTest() throws TestRunner.AssertException {
         AtlasGameHistory atlasGameHistory = new AtlasGameHistory();
-        int player=1;
+        AtlasPlayer player=new AtlasPlayer(1);
         String word="Khammam";
         atlasGameHistory.recordMove(player, word);
         TestRunner.AssertEquals(atlasGameHistory.getPlayerOnTurn(0),player);
