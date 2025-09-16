@@ -8,24 +8,39 @@ import java.util.HashMap;
 import java.util.Map;
 public class AtlasBot extends GamePlayer {
     private Map<Character,ArrayList<String>> FirstLetterToKnownPlacesMap;
-    public AtlasBot(int playerId,String playerName,String personalKey) throws IOException {
+    public AtlasBot(int playerId,String playerName,String personalKey,String wordVocabularyFilePath) throws IOException {
         super(playerId,playerName,personalKey);
-        initializeKnownPlaces();
+        initializeKnownPlaces(wordVocabularyFilePath);
     }
-    public AtlasBot(int playerId,String personalKey) throws IOException {
+    public AtlasBot(int playerId,String personalKey, String wordVocabularyFilePath) throws IOException {
         super(playerId,personalKey);
-        initializeKnownPlaces();
+        initializeKnownPlaces(wordVocabularyFilePath);
     }
-    public AtlasBot(GamePlayer player) throws IOException{
+    public AtlasBot(GamePlayer player, String wordVocabularyFilePath) throws IOException{
         super(player);
-        initializeKnownPlaces();
+        initializeKnownPlaces(wordVocabularyFilePath);
     }
+    @Override
     public boolean isBot(){
         return true;
     }
     private void initializeKnownPlaces()  throws IOException{
         String filePath="src/main/resources/ValidPlaces.txt";
         initializeKnownPlaces(filePath);
+    }
+    private void initializeKnownPlaces(String filePath) throws IOException{
+        if(filePath==null){
+            filePath = "src/main/resources/ValidPlaces.txt";
+        }
+        this.FirstLetterToKnownPlacesMap=new HashMap<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String place;
+            while ((place = reader.readLine()) != null) {
+                addWordInVocabulary(place);
+            }
+            System.out.print("Successfully added the file to vocabulary of the bot\n");
+        }
+
     }
     public boolean addWordInVocabulary(String place)
     {
@@ -40,16 +55,6 @@ public class AtlasBot extends GamePlayer {
         knownPlacesForLetter.add(place);
         return true;
     }
-    private void initializeKnownPlaces(String filePath) throws IOException{
-        this.FirstLetterToKnownPlacesMap=new HashMap<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String place;
-            while ((place = reader.readLine()) != null) {
-                addWordInVocabulary(place);
-            }
-        }
-
-    }
     private String lowerCase(String word)
     {
         if(word!=null)
@@ -59,13 +64,12 @@ public class AtlasBot extends GamePlayer {
     }
     public ActionResponse playPlace(char startingLetter, AtlasOrchestrator atlasOrchestrator){
         ArrayList<String> placesStartingWithLetter = FirstLetterToKnownPlacesMap.get(startingLetter);
-        int size=placesStartingWithLetter.size();
         int j=0;
-        while(placesStartingWithLetter!=null && j<size && atlasOrchestrator.isWordCompleted(placesStartingWithLetter.get(j))==true)
+        while(placesStartingWithLetter!=null && j<placesStartingWithLetter.size() && atlasOrchestrator.isWordCompleted(placesStartingWithLetter.get(j))==true)
         {
             j++;
         }
-        if(j==size || placesStartingWithLetter==null)
+        if(placesStartingWithLetter==null || j==placesStartingWithLetter.size())
         {
             return atlasOrchestrator.skipTurn(this);
 

@@ -43,7 +43,7 @@ public class Ola {
         AtlasOrchestrator atlasOrchestrator = new AtlasOrchestrator(2, 0, false, 5);
         GamePlayer player1 = new GamePlayer(1,"pammi","1");
         GamePlayer player2 = new GamePlayer(2,"krux","2");
-        AtlasBot bot = new AtlasBot(3,"Botez","botkey");
+        AtlasBot bot = new AtlasBot(3,"Botez","botkey",null);
         Map<Integer,GamePlayer> playerIdMap = new HashMap<>();
         ActionResponse res = atlasOrchestrator.registerPlayer(player1);
         printActionResponse(res);
@@ -64,6 +64,8 @@ public class Ola {
         while(atlasOrchestrator.getGameStatus()==Constants.GameStatus.IN_PROGRESS){
             AtlasPlayer playerTurn = atlasOrchestrator.getTurn();
             GamePlayer gamePlayer= playerIdMap.get(playerTurn.getPlayerId());
+            System.out.print("Its " + playerTurn.getPlayerId() + " : " + playerTurn.getPlayerName() + " turn.\n" + "Starting letter is "+atlasOrchestrator.getCurrentLetter()+"\nChoose your action\n");
+                    
             if(gamePlayer!=null){
                 if(gamePlayer.isBot()){
                     AtlasBot botTurn = (AtlasBot)gamePlayer;
@@ -71,7 +73,6 @@ public class Ola {
                     printActionResponse(response);
                 }
                 else{
-                    System.out.print("Its " + playerTurn.getPlayerId() + " : " + playerTurn.getPlayerName() + " turn.\n" + "Starting letter is "+atlasOrchestrator.getCurrentLetter()+"\nChoose your action\n");
                     int num=-1;
                     try{
                         num = scanner.nextInt();
