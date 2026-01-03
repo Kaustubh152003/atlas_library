@@ -149,14 +149,21 @@ public class AtlasGame {
             {
                 moveToNextPlayer();
             }
-            int j=getPlayerIndex(player);
-            while(j<playersSize-1)
-            {
-                players[j]=players[j+1];
-                j++;
+            int index=getPlayerIndex(player);
+            int j=index;
+            if(index!=-1){
+                while(j<playersSize-1)
+                {
+                    players[j]=players[j+1];
+                    j++;
+                }
+                playersSize--;
+                if(currentPlayerIndex>index){
+                    currentPlayerIndex--;
+                }
             }
-            playersSize--;
-            if(playersSize==0)
+
+            if(playersSize<=0)
             {
                 stopGame();
             }
